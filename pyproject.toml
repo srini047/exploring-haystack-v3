@@ -1,0 +1,16 @@
+[project]
+name = "learn-haystack-v3"
+version = "0.1.0"
+description = "Code walkthrough of Haystack v3"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "agent-pack-haystack>=0.0.1",
+    "cohere-haystack>=9.3.0",
+    "haystack-ai>=3.0.0",
+    "jinja2-time>=0.2.0",
+    "pypdf>=6.14.2",
+    "serperdev-haystack>=1.0.0",
+    "tavily-haystack>=0.4.0",
+    "trafilatura>=2.1.0",
+]

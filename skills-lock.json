@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "haystack": {
+      "source": "srini047/haystack-skills",
+      "sourceType": "github",
+      "skillPath": "skills/haystack/SKILL.md",
+      "computedHash": "372ad5982b4b61ffb58b02eb873eb6058052f8455b1ac2e44b6333bbe6e3db9d"
+    }
+  }
+}

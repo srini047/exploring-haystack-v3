@@ -1,0 +1,5 @@
+(learn-haystack) ➜  learn-haystack git:(master) ✗ uv run src/4_monitor_cost.py          
+Answer: There are 2 words in the text.
+Token usage: {'prompt_tokens': 86.0, 'completion_tokens': 34.0}
+Step count: 2
+Tool call counts: {'word_count': 1}

@@ -1,0 +1,177 @@
+(learn-haystack) ➜  learn-haystack git:(master) ✗ uv run src/2_hooks_guardrail.py
+How much control do you want over the agent's commands?
+  [y] yes  - confirm every command before it runs
+  [n] no   - trust the agent fully, run everything automatically
+  [a] auto - most cautious: confirm before every single agent step
+Mode (y/n/a): y
+
+Describe the linux problem to troubleshoot: Check the free space left in my device
+[guardrail] about to call 'run_linux_command' with {'command': 'df -h'}
+
+--- Tool Execution Request ---
+Tool: run_linux_command
+Description: Run a linux shell command and return its stdout/stderr. Use this for both
+    read-only diagnostics (top, ps, free, df, vmstat, iostat, journalctl, dmesg,
+    ss/netstat) and for applying a fix once you're confident about the cause
+    (e.g. kill <pid>, systemctl restart <service>).
+Arguments:
+  command: df -h
+------------------------------
+Confirm execution? (y=confirm / n=reject / m=modify): y
+
+[after_run] session finished — 1 command(s) executed.
+
+--- Agent report ---
+
+You are a Linux systems troubleshooting agent. Given a problem description (e.g. high CPU, high memory, disk full, slow network), diagnose it step by step using the run_linux_command tool. Always run read-only diagnostic commands first (top, ps, free, df, vmstat, iostat, journalctl, dmesg, ss/netstat) to gather evidence before proposing or running any destructive/fix command (kill, systemctl restart, rm, etc). Explain what each command's output tells you before moving to the next step, and clearly state your final diagnosis and recommended fix at the end.
+
+Check the free space left in my device
+
+I will use the df -h command to check the free space left in the device.
+
+The free space left in your device is as follows:
+
+- /dev/disk3s3s1: 163Gi
+- devfs: 0Bi
+- /dev/disk3s6: 163Gi
+- /dev/disk3s4: 163Gi
+- /dev/disk3s2: 163Gi
+- /dev/disk1s2: 481Mi
+- /dev/disk1s1: 481Mi
+- /dev/disk1s3: 481Mi
+- /dev/disk3s1: 163Gi
+- map auto_home: 0Bi
+- /dev/disk5s1: 460Mi
+- OrbStack:/OrbStack: 154Gi
+(learn-haystack) ➜  learn-haystack git:(master) ✗ uv run src/2_hooks_guardrail.py
+How much control do you want over the agent's commands?
+  [y] yes  - confirm every command before it runs
+  [n] no   - trust the agent fully, run everything automatically
+  [a] auto - most cautious: confirm before every single agent step
+Mode (y/n/a): a
+
+Describe the linux problem to troubleshoot: Check the free space left in my device
+
+[before_llm] step 1: agent wants to think/plan its next move. Continue? (y/n): y
+[guardrail] about to call 'run_linux_command' with {'command': 'df -h'}
+
+--- Tool Execution Request ---
+Tool: run_linux_command
+Description: Run a linux shell command and return its stdout/stderr. Use this for both
+    read-only diagnostics (top, ps, free, df, vmstat, iostat, journalctl, dmesg,
+    ss/netstat) and for applying a fix once you're confident about the cause
+    (e.g. kill <pid>, systemctl restart <service>).
+Arguments:
+  command: df -h
+------------------------------
+Confirm execution? (y=confirm / n=reject / m=modify): m
+Modify 'command' (current: df -h): df -mh
+
+[before_llm] step 2: agent wants to think/plan its next move. Continue? (y/n): n
+Traceback (most recent call last):
+  File "/Users/apple/Documents/learn-haystack/src/2_hooks_guardrail.py", line 188, in <module>
+    main()
+  File "/Users/apple/Documents/learn-haystack/src/2_hooks_guardrail.py", line 179, in main
+    result = agent.run(messages=[ChatMessage.from_user(problem)])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/apple/Documents/learn-haystack/.venv/lib/python3.12/site-packages/haystack/components/agents/agent.py", line 1053, in run
+    if not self._run_step(exe_context, span):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/apple/Documents/learn-haystack/.venv/lib/python3.12/site-packages/haystack/components/agents/agent.py", line 1155, in _run_step
+    _run_hooks(self.hooks, BEFORE_LLM, exe_context.state)
+  File "/Users/apple/Documents/learn-haystack/.venv/lib/python3.12/site-packages/haystack/hooks/invocation.py", line 19, in _run_hooks
+    h.run(state)
+  File "/Users/apple/Documents/learn-haystack/.venv/lib/python3.12/site-packages/haystack/hooks/from_function.py", line 90, in run
+    self.function(state)
+  File "/Users/apple/Documents/learn-haystack/src/2_hooks_guardrail.py", line 91, in before_llm
+    raise RuntimeError("Stopped by user before an LLM step.")
+RuntimeError: Stopped by user before an LLM step.
+(learn-haystack) ➜  learn-haystack git:(master) ✗ uv run src/2_hooks_guardrail.py
+How much control do you want over the agent's commands?
+  [y] yes  - confirm every command before it runs
+  [n] no   - trust the agent fully, run everything automatically
+  [a] auto - most cautious: confirm before every single agent step
+Mode (y/n/a): a
+
+Describe the linux problem to troubleshoot: Check the free space left in my device
+
+[before_llm] step 1: agent wants to think/plan its next move. Continue? (y/n): y
+[guardrail] about to call 'run_linux_command' with {'command': 'df -h'}
+
+--- Tool Execution Request ---
+Tool: run_linux_command
+Description: Run a linux shell command and return its stdout/stderr. Use this for both
+    read-only diagnostics (top, ps, free, df, vmstat, iostat, journalctl, dmesg,
+    ss/netstat) and for applying a fix once you're confident about the cause
+    (e.g. kill <pid>, systemctl restart <service>).
+Arguments:
+  command: df -h
+------------------------------
+Confirm execution? (y=confirm / n=reject / m=modify): m
+Modify 'command' (current: df -h): df -mh
+
+[before_llm] step 2: agent wants to think/plan its next move. Continue? (y/n): y
+
+[after_run] session finished — 1 command(s) executed.
+
+--- Agent report ---
+
+You are a Linux systems troubleshooting agent. Given a problem description (e.g. high CPU, high memory, disk full, slow network), diagnose it step by step using the run_linux_command tool. Always run read-only diagnostic commands first (top, ps, free, df, vmstat, iostat, journalctl, dmesg, ss/netstat) to gather evidence before proposing or running any destructive/fix command (kill, systemctl restart, rm, etc). Explain what each command's output tells you before moving to the next step, and clearly state your final diagnosis and recommended fix at the end.
+
+Check the free space left in my device
+
+The parameters for tool 'run_linux_command' were updated by the user to:
+{'command': 'df -mh'}
+
+I will use the df -h command to check the free space left in the device.
+
+Here is the free space left in your device:
+
+Filesystem Size Used Avail Capacity iused ifree %iused Mounted on
+/dev/disk3s3s1 460Gi 12Gi 163Gi 7% 459k 1.7G 0% /
+devfs 206Ki 206Ki 0Bi 100% 714 0 100% /dev
+/dev/disk3s6 460Gi 4.0Gi 163Gi 3% 4 1.7G 0% /System/Volumes/VM
+/dev/disk3s4 460Gi 8.4Gi 163Gi 5% 1.4k 1.7G 0% /System/Volumes/Preboot
+/dev/disk3s2 460Gi 38Mi 163Gi 1% 64 1.7G 0% /System/Volumes/Update
+/dev/disk1s2 500Mi 6.0Mi 481Mi 2% 1 4.9M 0% /System/Volumes/xarts
+/dev/disk1s1 500Mi 5.6Mi 481Mi 2% 31 4.9M 0% /System/Volumes/iSCPreboot
+/dev/disk1s3 500Mi 2.5Mi 481Mi 1% 52 4.9M 0% /System/Volumes/Hardware
+/dev/disk3s1 460Gi 272Gi 163Gi 63% 4.4M 1.7G 0% /System/Volumes/Data
+map auto_home 0Bi 0Bi 0Bi 100% 0 0 - /System/Volumes/Data/home
+/dev/disk5s1 16Gi 16Gi 460Mi 98% 521k 4.7M 10% /Library/Developer/CoreSimulator/Volumes/iOS_21E213
+OrbStack:/OrbStack 194Gi 40Gi 154Gi 21% 0 0 - /Users/apple/OrbStack
+(learn-haystack) ➜  learn-haystack git:(master) ✗ df -mh                                                              
+Filesystem            Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s3s1       460Gi    12Gi   163Gi     7%    459k  1.7G    0%   /
+devfs                206Ki   206Ki     0Bi   100%     714     0  100%   /dev
+/dev/disk3s6         460Gi   4.0Gi   163Gi     3%       4  1.7G    0%   /System/Volumes/VM
+/dev/disk3s4         460Gi   8.4Gi   163Gi     5%    1.4k  1.7G    0%   /System/Volumes/Preboot
+/dev/disk3s2         460Gi    38Mi   163Gi     1%      64  1.7G    0%   /System/Volumes/Update
+/dev/disk1s2         500Mi   6.0Mi   481Mi     2%       1  4.9M    0%   /System/Volumes/xarts
+/dev/disk1s1         500Mi   5.6Mi   481Mi     2%      31  4.9M    0%   /System/Volumes/iSCPreboot
+/dev/disk1s3         500Mi   2.5Mi   481Mi     1%      52  4.9M    0%   /System/Volumes/Hardware
+/dev/disk3s1         460Gi   272Gi   163Gi    63%    4.4M  1.7G    0%   /System/Volumes/Data
+map auto_home          0Bi     0Bi     0Bi   100%       0     0     -   /System/Volumes/Data/home
+/dev/disk5s1          16Gi    16Gi   460Mi    98%    521k  4.7M   10%   /Library/Developer/CoreSimulator/Volumes/iOS_21E213
+OrbStack:/OrbStack   194Gi    40Gi   154Gi    21%       0     0     -   /Users/apple/OrbStack
+(learn-haystack) ➜  learn-haystack git:(master) ✗ uv run src/2_hooks_guardrail.py 
+How much control do you want over the agent's commands?
+  [y] yes  - confirm every command before it runs
+  [n] no   - trust the agent fully, run everything automatically
+  [a] auto - most granlar: confirmation required for every agent step
+Mode (y/n/a): n
+
+Describe the linux problem to troubleshoot: List the song that is being played 
+[guardrail] about to call 'run_linux_command' with {'command': 'ps aux | grep -i "music player"'}
+
+[after_run] session finished — 1 command(s) executed.
+
+--- Agent report ---
+[SYSTEM] 
+You are a Linux systems troubleshooting agent. Given a problem description (e.g. high CPU, high memory, disk full, slow network), diagnose it step by step using the run_linux_command tool. Always run read-only diagnostic commands first (top, ps, free, df, vmstat, iostat, journalctl, dmesg, ss/netstat) to gather evidence before proposing or running any destructive/fix command (kill, systemctl restart, rm, etc). Explain what each command's output tells you before moving to the next step, and clearly state your final diagnosis and recommended fix at the end.
+[USER] 
+List the song that is being played
+[ASSISTANT] 
+I will use the run_linux_command tool to find the song that is being played.
+[TOOL][ASSISTANT] 
+I'm sorry, I couldn't find any information about a song being played.
